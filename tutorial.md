@@ -38,8 +38,8 @@ kuzzle = new Kuzzle(kuzzle_host, "cabble", options, new ResponseListener() {
 
 ## Create index
 
-Once we've connected to our Kuzzle, the onSuccess callback will be executed and then we will create our collection's mapping [(MapActivity.java:332)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L332)
-To do that we check if our index exists by verifying if our collections exists with kuzzle.listCollections, if they don't the onError callback will be triggered [(MapActivity.java:343)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L343)
+Once we've connected to our Kuzzle, the onSuccess callback will be executed and then we will create our collection mapping [(MapActivity.java:332)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L332)
+To do that we check if our index exists by verifying if our collection exists with kuzzle.listCollections, if they don't the onError callback will be triggered [(MapActivity.java:343)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L343)
 and then we create our index with kuzzle.query [(MapActivity.java:348)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L348)
 ```java
 kuzzle.query("", "admin", "createIndex", query, new ResponseListener() { ... });
@@ -56,7 +56,7 @@ KuzzleDataMapping mapping = new KuzzleDataMapping(userCollection);
 
 ## Create collection
 
-Then we can finally create our 2 collections which are rideCollection and userCollection (you can create a collection by subscribing to it without creating it before) [(MapActivity.java:351)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L351)
+Then we can finally create our 2 collections, which are rideCollection and userCollection (you can create a collection by subscribing to it without creating it before) [(MapActivity.java:351)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L351)
 ```java
 userCollection = kuzzle.dataCollectionFactory(getResources().getString(R.string.cabble_collection_users));
 rideCollection = kuzzle.dataCollectionFactory(getResources().getString(R.string.cabble_collection_rides));
@@ -66,8 +66,8 @@ rideCollection.create(...);
 
 ## Create user
 
-We will now create our user depending on it's type (cab or customer) [(MapActivity.java:391)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L391)
-The user is represented by a KuzzleDocument which is stored into elasticsearch:
+We will now create our user depending on its type (cab or customer) [(MapActivity.java:391)](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L391)
+The user is represented by a KuzzleDocument stored into elasticsearch:
 ```java
 self = new KuzzleDocument(userCollection);
 self.setContent("type", userType.toString().toLowerCase())
@@ -142,7 +142,7 @@ filter.put("geo_distance", geo_distance);
 
 ## Change our availability
 
-When a cab wants to look for a customer or a customer wants a ride we simply update the KuzzleDocument, then all the others subscriptions will be notify abd will be able to propose a ride or a hiring.
+When a cab wants to look for a customer or a customer wants a ride we simply update KuzzleDocument, then all the other subscriptions will be notified and will be able to propose a ride or an hiring.
 ([MapActivity.java:139](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L139))
 ```java
 ...
@@ -151,7 +151,7 @@ self.setContent("status", Status.TOHIRE.toString());
 self.save();
 ```
 
-## Subscribtion to rides proposal
+## Subscription to ride proposals
 
 Here we subscribe to the ride collection with the filter that match status, type and position according to our type ([MapActivity.java:524](https://github.com/kuzzleio/kuzzle-cabble-android/blob/master/src/main/java/io/kuzzle/demo/demo_android/MapActivity.java#L524))
 ```java
